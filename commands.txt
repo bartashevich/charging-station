@@ -1,0 +1,5 @@
+# SUBCRIBE
+mosquitto_sub -h eu.thethings.network -t '+/devices/+/up' -u 'electric-vehicle-charging-station-ua' -P 'ttn-account-v2.GNEAONKKwzyOzHmBiFrFngvGsTk86Xz4I6eYNx9bvkE' -v --cafile mqtt-ca.pem -p 8883
+
+# PUBLISH
+mosquitto_pub -h eu.thethings.network -t 'electric-vehicle-charging-station-ua/devices/charging-station-1/down' -u 'electric-vehicle-charging-station-ua' -P 'ttn-account-v2.GNEAONKKwzyOzHmBiFrFngvGsTk86Xz4I6eYNx9bvkE' -m '{"payload_fields":{"led":0}}'

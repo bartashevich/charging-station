@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+		table, th, td {
+		    border: 1px solid black;
+		    border-collapse: collapse;
+		}
+		</style>
+</head>
+
+<h1>Station Control</h1>
+<table>
+	<tr>
+		<th>Station #1</th>
+		<th>Station #2</th> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request('{{ device }}_1','available')">Available</button></td>
+		<td><button type="button" onclick="post_request('{{ device }}_2','available')">Available</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request('{{ device }}_1','parked')">Parked</button></td>
+		<td><button type="button" onclick="post_request('{{ device }}_2','parked')">Parked</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request('{{ device }}_1','detached')">Detached</button></td>
+		<td><button type="button" onclick="post_request('{{ device }}_2','detached')">Detached</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request('{{ device }}_1','charging')">Charging</button></td>
+		<td><button type="button" onclick="post_request('{{ device }}_2','charging')">Charging</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request('{{ device }}_1','charged')">Charged</button></td>
+		<td><button type="button" onclick="post_request('{{ device }}_2','charged')">Charged</button></td> 
+	</tr>
+</table>
+<br>
+<button type="button" onclick="reset_requests()">RESET REQUESTS</button>
+<hr>
+<h1>APP Control</h1>
+<table>
+	<tr>
+		<th>Station #1</th>
+		<th>Station #2</th> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request_app('{{ device }}_1','available')">Available</button></td>
+		<td><button type="button" onclick="post_request_app('{{ device }}_2','available')">Available</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request_app('{{ device }}_1','parked')">Parked</button></td>
+		<td><button type="button" onclick="post_request_app('{{ device }}_2','parked')">Parked</button></td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request_app('{{ device }}_1','detached')">Detached</button></td>
+		<td><button type="button" onclick="post_request_app('{{ device }}_2','detached')">Detached</button></td> 
+	</tr>
+	<tr>
+		<td>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',10)">Charging</button>
+			<br>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',25)">25%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',40)">40%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',55)">55%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',70)">70%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_1','charging',85)">85%</button>
+		</td>
+		<td>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',10)">Charging</button>
+			<br>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',25)">25%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',40)">40%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',55)">55%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',70)">70%</button>
+			<button type="button" onclick="post_request_app_percentage('{{ device }}_2','charging',85)">85%</button>
+		</td> 
+	</tr>
+	<tr>
+		<td><button type="button" onclick="post_request_app_percentage('{{ device }}_1','charged',100)">Charged</button></td>
+		<td><button type="button" onclick="post_request_app_percentage('{{ device }}_2','charged',100)">Charged</button></td> 
+	</tr>
+</table>
+
+
+<script>
+	function post_request(station_id, station_state){
+		var xhr = new XMLHttpRequest();
+		var url = "/stations";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = function () {
+			if(xhr.status != 0 && xhr.statusText != 0 && xhr.responseText != 0 && xhr.readyState == 3){
+				alert(xhr.status + ": " + xhr.statusText + ", " + xhr.responseText);
+			}
+			
+			console.log(xhr);
+		};
+		var data = JSON.stringify({"station_id": station_id, "new_state": station_state});
+		xhr.send(data);
+	}
+
+	function post_request_app(station_id, station_state){
+		var xhr = new XMLHttpRequest();
+		var url = "/proxy_post";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = function () {
+			if(xhr.status != 0 && xhr.statusText != 0 && xhr.responseText != 0 && xhr.readyState == 3){
+				alert(xhr.status + ": " + xhr.statusText + ", " + xhr.responseText);
+			}
+			
+			console.log(xhr);
+		};
+
+		var data = JSON.stringify({"station_id": station_id, "station_state": station_state, "message_type" : "state_update"});
+
+		xhr.send(data);
+	}
+
+	function post_request_app_percentage(station_id, station_state, percentage){
+		var xhr = new XMLHttpRequest();
+		var url = "/proxy_post";
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = function () {
+			if(xhr.status != 0 && xhr.statusText != 0 && xhr.responseText != 0 && xhr.readyState == 3){
+				alert(xhr.status + ": " + xhr.statusText + ", " + xhr.responseText);
+			}
+			
+			console.log(xhr);
+		};
+
+		var data;
+
+		if( percentage == 10){
+			data = JSON.stringify({"station_id": station_id, "station_state": station_state, "message_type" : "charging_start", "percentage": 10});
+		}
+		else if(percentage == 100){
+			data = JSON.stringify({"station_id": station_id, "station_state": station_state, "message_type" : "charging_finished", "percentage": 100});
+		}
+		else{
+			data = JSON.stringify({"station_id": station_id, "station_state": station_state, "message_type" : "charging_update", "percentage": percentage});
+		}
+
+		xhr.send(data);
+	}
+
+	function reset_requests()
+	{
+	    var xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open( "GET", "http://159.65.85.80/callback_clear", false ); // false for synchronous request
+	    xmlHttp.send( null );
+
+	    alert("success");
+
+	    return xmlHttp.responseText;
+	}
+</script>
+</html>

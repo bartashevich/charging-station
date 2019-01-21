@@ -1,0 +1,15 @@
+<html>
+	<h1>How to use /stations</h1>
+	<p>POST -&gt; http://206.189.26.231/stations with the json payload</p>
+	<p>EX:&nbsp;{"station_id": "70B3D549988A54E5_1", "new_state": "available"}</p>
+	<p>&nbsp;</p>
+	<p>Possible outcomes:</p>
+	<p>-&nbsp;HTTP/1.1 200 OK - {"message": "success"}</p>
+	<p>- HTTP/1.1 403 FORBIDDEN - {"message": "too-many-requests"}</p>
+	<p>- HTTP/1.1 403 FORBIDDEN - {"message": "station-not-found"}</p>
+	<p>-&nbsp;HTTP/1.1 400 BAD REQUEST - {"message": "invalid state"}</p>
+	<p>-&nbsp;HTTP/1.1 400 BAD REQUEST - {"message": "invalid-json-format"}</p>
+	<p>-&nbsp;HTTP/1.1 400 BAD REQUEST - {"message": "station_id-or-new_state-not-present"}</p>
+	<p>&nbsp;</p>
+	<p>You may experiment POST request on this website:&nbsp;<a href="https://apitester.com/">https://apitester.com/</a></p>
+</html>
