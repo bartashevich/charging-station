@@ -3,6 +3,8 @@ Flask API for Electric Vehicle Charging Station prototype communication service 
 
 In this project, we have a PyCom device that will be used to communicate with the charging station for the electric cars using LoRaWAN. Sending data to a near LoRaWAN gateway and receives a response. The gateway is connected to the TheThingsNetwork, the portal where the PyCom device is registered. It is possible to retrieve information sent by the PyCom device using the MQTT protocol. There is also a cloud-based server that will subscribe and publish the MQTT topics to control the charging station. New PyCom devices will be registered using the API from TheThingsNetwork.
 
+![station](https://user-images.githubusercontent.com/9809095/74641122-ada5e300-5168-11ea-9926-b0eca45fed2c.png)
+
 ## Weekly blog ( might be interesting take a look :D )
 Medium: https://medium.com/electric-cars-charging-system
 
